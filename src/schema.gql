@@ -1,0 +1,67 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Todo {
+  id: ID!
+  userId: ID!
+  title: String!
+  description: String!
+  status: String!
+  priority: String!
+}
+
+type User {
+  id: ID!
+  username: String!
+  password: String!
+  displayName: String
+  todos: [Todo]
+  settings: UserSetting
+  fullName: String!
+}
+
+type UserSetting {
+  userId: ID!
+  recieveNotifcations: Boolean!
+  recieveEmails: Boolean!
+}
+
+type Query {
+  """Get user by id"""
+  getUserById(
+    """User id"""
+    id: ID!
+    username: String!
+  ): User
+
+  """Get all users"""
+  getAllUsers: [User!]!
+  getTodos: [Todo]
+}
+
+type Mutation {
+  createUserSettings(createUserSettingsData: CreateSettingsInput!): UserSetting!
+  createUser(createUserData: CreateUserArgs!): User!
+  createTodo(input: todoCreateInput!): Todo!
+}
+
+input CreateSettingsInput {
+  userId: Int!
+  recieveNotifcations: Boolean = false
+  recieveEmails: Boolean = false
+}
+
+input CreateUserArgs {
+  username: String!
+  password: String!
+  displayName: String
+}
+
+input todoCreateInput {
+  userId: ID!
+  title: String!
+  description: String!
+  status: String!
+  priority: String!
+}
