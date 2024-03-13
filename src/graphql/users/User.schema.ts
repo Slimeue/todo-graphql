@@ -23,10 +23,6 @@ export class User {
   @Field({ nullable: true })
   @Prop()
   displayName?: string;
-
-  @Field((type) => [Todo], { nullable: 'itemsAndList' })
-  @Prop()
-  todos: Todo[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

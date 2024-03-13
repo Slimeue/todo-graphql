@@ -17,6 +17,6 @@ import { UsersModule } from '../users/users.module';
     ]),
   ],
   providers: [TodoResolver, TodoService, TodoMutationResolver],
-  exports: [],
+  exports: [TodoService],
 })
 export class TodoModule {}

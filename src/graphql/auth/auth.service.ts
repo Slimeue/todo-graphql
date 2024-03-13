@@ -37,7 +37,6 @@ export class AuthService {
   }
 
   async validateUser(AuthPayloadDto: AuthPayloadDto): Promise<AuthPayloadDto> {
-    console.log('authPayload1', AuthPayloadDto);
     const foundUser = await this.userService.findOne(AuthPayloadDto);
     if (!foundUser) {
       return null;

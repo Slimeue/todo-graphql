@@ -2,18 +2,13 @@ import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Todo } from './todo.schema';
 import { Model } from 'mongoose';
-import { todoCreateInput } from './todo.type';
-
-import { User } from '../users/User.schema';
+import { todoCreateInput, todoUpdateInput } from './todo.type';
 
 @Injectable()
 export class TodoService {
   constructor(
     @InjectModel(Todo.name)
     private todoModel: Model<Todo>,
-    @Inject(forwardRef(() => User))
-    @InjectModel(User.name)
-    private userModel: Model<User>,
   ) {}
 
   async findAll() {
@@ -26,16 +21,34 @@ export class TodoService {
     return todo;
   }
 
+  async findByUserId(userId: string) {
+    const todos = await this.todoModel.find({ userId }).exec();
+    return todos;
+  }
+
   async create(input: todoCreateInput) {
     const createdTodo = await new this.todoModel(input);
-    const user = await this.userModel.findOneAndUpdate(
-      { id: input.userId },
-      { $push: { todos: createdTodo } },
-      { new: true },
-    );
-    if (!user) {
-      throw new Error('User not found');
-    }
     return createdTodo.save();
+  }
+
+  async update(input: todoUpdateInput) {
+    const updatedTodo = await this.todoModel.findOneAndUpdate(
+      { id: input.id },
+      {
+        $set: {
+          title: input.title,
+          description: input.description,
+          status: input.status,
+          priority: input.priority,
+        },
+      },
+    );
+
+    return updatedTodo;
+  }
+
+  async delete(id: string) {
+    const deletedTodo = await this.todoModel.findOneAndDelete({ id });
+    return deletedTodo;
   }
 }

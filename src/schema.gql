@@ -2,6 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: ID!
+  username: String!
+  password: String!
+  displayName: String
+  settings: UserSetting
+  todos: [Todo!]
+}
+
+type UserSetting {
+  userId: ID!
+  recieveNotifcations: Boolean!
+  recieveEmails: Boolean!
+}
+
 type Todo {
   id: ID!
   userId: ID!
@@ -9,22 +24,6 @@ type Todo {
   description: String!
   status: String!
   priority: String!
-}
-
-type User {
-  id: ID!
-  username: String!
-  password: String!
-  displayName: String
-  todos: [Todo]
-  settings: UserSetting
-  fullName: String!
-}
-
-type UserSetting {
-  userId: ID!
-  recieveNotifcations: Boolean!
-  recieveEmails: Boolean!
 }
 
 type Query {
@@ -44,6 +43,8 @@ type Mutation {
   createUserSettings(createUserSettingsData: CreateSettingsInput!): UserSetting!
   createUser(createUserData: CreateUserArgs!): User!
   createTodo(input: todoCreateInput!): Todo!
+  updateTodo(input: todoUpdateInput!): Todo!
+  deleteTodo(id: String!): Todo!
 }
 
 input CreateSettingsInput {
@@ -64,4 +65,12 @@ input todoCreateInput {
   description: String!
   status: String!
   priority: String!
+}
+
+input todoUpdateInput {
+  id: ID!
+  title: String
+  description: String
+  status: String
+  priority: String
 }

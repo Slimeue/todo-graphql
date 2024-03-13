@@ -10,7 +10,6 @@ export class AuthController {
   @Public()
   @Post('login')
   async login(@Body() authPayLoad: AuthPayloadDto) {
-    console.log('authPayLoad', authPayLoad);
     const user = await this.authService.signin(authPayLoad);
 
     return user;

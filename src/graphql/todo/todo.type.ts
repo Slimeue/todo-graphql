@@ -17,3 +17,21 @@ export class todoCreateInput {
   @Field()
   priority: string;
 }
+
+@InputType()
+export class todoUpdateInput {
+  @Field(() => ID)
+  id: string;
+
+  @Field({ nullable: true })
+  title: string;
+
+  @Field({ nullable: true })
+  description: string;
+
+  @Field({ nullable: true })
+  status: string;
+
+  @Field({ nullable: true })
+  priority: string;
+}

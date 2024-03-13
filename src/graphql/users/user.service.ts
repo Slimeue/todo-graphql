@@ -19,13 +19,11 @@ export class UserService {
 
   async findAll() {
     const users = await this.userModel.find().exec();
-
     return users;
   }
 
   async findOne({ username }: FilterQuery<User>): Promise<User> {
-    console.log('username', username);
-    const user = await this.userModel.findOne({ id: username }).exec();
+    const user = await this.userModel.findOne({ username: username }).exec();
     return user;
   }
 }

@@ -12,10 +12,15 @@ import { GetUserArgs } from '../dto/getUser.args';
 import { CreateUserArgs } from '../dto/create-user.input';
 import { UserService } from './user.service';
 import { Public } from 'src/utils/public.decorators';
+import { Todo } from '../todo/todo.schema';
+import { TodoService } from '../todo/todo.service';
 
 @Resolver((of) => User)
 export class UserResolver {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private todoService: TodoService,
+  ) {}
 
   @Query((returns) => User, { nullable: true, description: 'Get user by id' })
   getUserById(@Args() args: GetUserArgs) {
@@ -33,8 +38,8 @@ export class UserResolver {
     return console.log('user', user);
   }
 
-  @ResolveField(() => String)
-  async fullName(@Parent() user: User) {
-    return `${user.username}`;
+  @ResolveField(() => [Todo], { nullable: true })
+  async todos(@Parent() user: User) {
+    return this.todoService.findByUserId(user.id);
   }
 }
