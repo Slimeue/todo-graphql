@@ -28,11 +28,11 @@ export class AuthService {
       }
 
       userJwt = await this.jwtService.signAsync({ username });
-      console.log('jwt', userJwt);
     }
 
     return {
-      access_token: userJwt,
+      userJwt,
+      userFound,
     };
   }
 
