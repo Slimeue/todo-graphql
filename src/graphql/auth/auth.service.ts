@@ -3,13 +3,16 @@ import { AuthPayloadDto } from './dto/auth.dto';
 import { UserService } from '../users/user.service';
 import { isEmpty } from 'class-validator';
 import { JwtService } from '@nestjs/jwt';
+import { CommonService } from 'src/common.service';
 
 @Injectable()
-export class AuthService {
+export class AuthService extends CommonService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) {
+    super();
+  }
 
   async signin(AuthPayloadDto: AuthPayloadDto) {
     if (isEmpty(AuthPayloadDto.username)) {
@@ -23,7 +26,12 @@ export class AuthService {
     if (!isEmpty(userFound)) {
       const { password, ...username } = userFound;
 
-      if (password !== AuthPayloadDto.password) {
+      const isPasswordMatched = await this.comparePassword(
+        AuthPayloadDto.password,
+        password,
+      );
+
+      if (!isPasswordMatched) {
         throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
       }
 

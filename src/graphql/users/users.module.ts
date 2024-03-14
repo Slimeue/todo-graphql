@@ -10,11 +10,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UserMutationResolver } from './user.mutation.resolver';
 import { TodoModule } from '../todo/todo.module';
+import { AppModule } from 'src/app.module';
 
 @Module({
   controllers: [UsersController],
   imports: [
     forwardRef(() => TodoModule),
+    forwardRef(() => AppModule),
     MongooseModule.forFeature([
       {
         name: User.name,

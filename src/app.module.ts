@@ -9,6 +9,7 @@ import { JwtStrategy } from './graphql/auth/strategies/jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { MONGO_URL } from './config';
+import { CommonService } from './common.service';
 
 @Module({
   imports: [
@@ -28,6 +29,8 @@ import { MONGO_URL } from './config';
       provide: APP_GUARD,
       useClass: JwtStrategy,
     },
+    CommonService,
   ],
+  exports: [CommonService],
 })
 export class AppModule {}
