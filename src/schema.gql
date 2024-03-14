@@ -6,8 +6,8 @@ type User {
   id: ID!
   username: String!
   password: String!
+  salt: String!
   displayName: String
-  settings: UserSetting
   todos: [Todo!]
 }
 

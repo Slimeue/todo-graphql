@@ -22,7 +22,7 @@ export class UserResolver {
     private todoService: TodoService,
   ) {}
 
-  @Query((returns) => User, { nullable: true, description: 'Get user by id' })
+  @Query(() => User, { nullable: true, description: 'Get user by id' })
   getUserById(@Args() args: GetUserArgs) {
     return this.userService.findOne(args);
   }
@@ -31,11 +31,6 @@ export class UserResolver {
   @Query(() => [User], { description: 'Get all users' })
   getAllUsers() {
     return this.userService.findAll();
-  }
-
-  @ResolveField(() => UserSetting, { nullable: true })
-  async settings(@Parent() user: User) {
-    return console.log('user', user);
   }
 
   @ResolveField(() => [Todo], { nullable: true })
