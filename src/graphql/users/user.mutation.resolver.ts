@@ -14,7 +14,6 @@ export class UserMutationResolver {
     @Args('createUserData', { type: () => CreateUserArgs })
     createUserData: CreateUserArgs,
   ) {
-    console.log('createUserData', createUserData);
     return this.userService.create(createUserData);
   }
 }

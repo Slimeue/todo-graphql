@@ -44,6 +44,12 @@ export class AuthService extends CommonService {
     };
   }
 
+  async signUp(authPayLoad: AuthPayloadDto) {
+    const user = await this.userService.create(authPayLoad);
+
+    return user;
+  }
+
   async validateUser(AuthPayloadDto: AuthPayloadDto): Promise<AuthPayloadDto> {
     const foundUser = await this.userService.findOne(AuthPayloadDto);
     if (!foundUser) {
