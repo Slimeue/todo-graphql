@@ -17,7 +17,7 @@ export class TodoService {
   }
 
   async findOne(id: string) {
-    const todo = await this.todoModel.findById(id).exec();
+    const todo = await this.todoModel.findOne({ id }).exec();
     return todo;
   }
 

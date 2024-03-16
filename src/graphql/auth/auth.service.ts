@@ -21,10 +21,10 @@ export class AuthService extends CommonService {
 
     let userJwt: string;
 
-    const userFound = await this.userService.findOne(AuthPayloadDto);
+    const user = await this.userService.findOne(AuthPayloadDto);
 
-    if (!isEmpty(userFound)) {
-      const { password, ...username } = userFound;
+    if (!isEmpty(user)) {
+      const { password, ...username } = user;
 
       const isPasswordMatched = await this.comparePassword(
         AuthPayloadDto.password,
@@ -35,12 +35,16 @@ export class AuthService extends CommonService {
         throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
       }
 
-      userJwt = await this.jwtService.signAsync({ username });
+      console.log('userFound', user);
+
+      const payload = { user };
+
+      userJwt = await this.jwtService.signAsync(payload);
     }
 
     return {
       userJwt,
-      userFound,
+      userFound: user,
     };
   }
 

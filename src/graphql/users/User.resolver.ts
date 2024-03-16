@@ -14,6 +14,7 @@ import { UserService } from './user.service';
 import { Public } from 'src/utils/public.decorators';
 import { Todo } from '../todo/todo.schema';
 import { TodoService } from '../todo/todo.service';
+import { CurrentUser } from '../auth/decorator/currentUser.decorator';
 
 @Resolver((of) => User)
 export class UserResolver {
@@ -22,19 +23,38 @@ export class UserResolver {
     private todoService: TodoService,
   ) {}
 
-  @Query(() => User, { nullable: true, description: 'Get user by id' })
+  @Query(() => User)
+  async viewer(@CurrentUser() user: User): Promise<User> {
+    console.log('user', user.displayName);
+    return user;
+  }
+
+  @ResolveField(() => User, { nullable: true })
   getUserById(@Args() args: GetUserArgs) {
     return this.userService.findOne(args);
   }
 
   @Public()
-  @Query(() => [User], { description: 'Get all users' })
+  @ResolveField(() => [User])
   getAllUsers() {
     return this.userService.findAll();
   }
 
+  // @ResolveField(() =>[Todo])
+  // async todos
+  @ResolveField(() => Todo, { nullable: true })
+  async getTodo(@Args('id') id: string, @CurrentUser() user: User) {
+    const todo = await this.todoService.findOne(id);
+
+    if (todo.userId !== user.id) {
+      throw new Error('Not authorized');
+    }
+
+    return todo;
+  }
+
   @ResolveField(() => [Todo], { nullable: true })
-  async todos(@Parent() user: User) {
+  async todos(@CurrentUser() user: User) {
     return this.todoService.findByUserId(user.id);
   }
 }

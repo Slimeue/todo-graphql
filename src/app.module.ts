@@ -17,6 +17,7 @@ import { CommonService } from './common.service';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'src/schema.gql',
+      context: ({ req }) => ({ req }),
     }),
     MongooseModule.forRoot(MONGO_URL),
     UsersModule,

@@ -23,7 +23,7 @@ export class UserService {
     const createdUser = await new this.userModel(createUserDto);
     createdUser.password = password;
     createdUser.salt = salt;
-    
+
     return createdUser.save();
   }
 

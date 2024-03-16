@@ -8,6 +8,13 @@ type User {
   password: String!
   salt: String!
   displayName: String
+  getUserById(
+    """User id"""
+    id: ID!
+    username: String!
+  ): User
+  getAllUsers: [User!]!
+  getTodo(id: String!): Todo
   todos: [Todo!]
 }
 
@@ -24,19 +31,11 @@ type Todo {
   description: String!
   status: String!
   priority: String!
+  getTodos: [Todo]
 }
 
 type Query {
-  """Get user by id"""
-  getUserById(
-    """User id"""
-    id: ID!
-    username: String!
-  ): User
-
-  """Get all users"""
-  getAllUsers: [User!]!
-  getTodos: [Todo]
+  viewer: User!
 }
 
 type Mutation {
