@@ -5,9 +5,6 @@ import { Public } from 'src/utils/public.decorators';
 import { Response } from 'express';
 import { omit } from 'lodash';
 import { LocalGuard } from './guards/local.guard';
-import { RolesGuard } from 'src/roles.guard';
-import { Roles } from 'src/roles.decorator';
-import { Role } from 'src/common.types';
 
 @Controller('auth')
 export class AuthController {
