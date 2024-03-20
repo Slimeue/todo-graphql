@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Meta {
+  page: Float!
+  limit: Float!
+}
+
 type User {
   id: ID!
   username: String!
@@ -14,25 +19,58 @@ type User {
     id: ID!
     username: String!
   ): User
-  getAllUsers: [User!]!
+  getAllUsers: [User!]
   getTodo(id: String!): Todo
-  todos: [Todo!]
+  getTodosByUserId(input: TodoPaginationInput!): TodoSearch
+  getTodoCategories(input: TodoCategoryPaginationInput!): TodoCategorySearch
+  getTodoCategory(id: String!): TodoCategory
 }
 
-type UserSetting {
-  userId: ID!
-  recieveNotifcations: Boolean!
-  recieveEmails: Boolean!
+input TodoPaginationInput {
+  page: Float! = 1
+  limit: Float! = 10
+  search: String
+  orderBy: String
+  accountId: String
+  userId: String
+}
+
+input TodoCategoryPaginationInput {
+  page: Float! = 1
+  limit: Float! = 10
+  search: String
+  orderBy: String
+  accountId: String
+  userId: String
 }
 
 type Todo {
   id: ID!
   userId: ID!
   title: String!
-  description: String!
+  description: String
   status: String!
   priority: String!
+  categoryId: ID
+  category: String
   getTodos: [Todo]
+}
+
+type TodoCategory {
+  id: ID!
+  userId: ID!
+  name: String!
+  description: String
+}
+
+type TodoSearch {
+  items: [Todo!]
+  meta: Meta!
+}
+
+type TodoCategorySearch {
+  items: [TodoCategory!]
+  meta: Meta!
 }
 
 type Query {
@@ -43,16 +81,18 @@ type Mutation {
   createTodo(input: todoCreateInput!): Todo!
   updateTodo(input: todoUpdateInput!): Todo!
   deleteTodo(id: String!): Todo!
-  createUserSettings(createUserSettingsData: CreateSettingsInput!): UserSetting!
   createUser(createUserData: CreateUserArgs!): User!
+  createTodoCategory(input: TodoCategoryCreateInput!): TodoCategory!
+  updateTodoCategory(input: TodoCategoryUpdateInput!): TodoCategory!
 }
 
 input todoCreateInput {
   userId: ID!
   title: String!
-  description: String!
+  description: String
   status: String!
   priority: String!
+  categoryId: ID
 }
 
 input todoUpdateInput {
@@ -61,16 +101,22 @@ input todoUpdateInput {
   description: String
   status: String
   priority: String
-}
-
-input CreateSettingsInput {
-  userId: Int!
-  recieveNotifcations: Boolean = false
-  recieveEmails: Boolean = false
+  categoryId: ID
 }
 
 input CreateUserArgs {
   username: String!
   password: String!
   displayName: String
+}
+
+input TodoCategoryCreateInput {
+  name: String!
+  description: String
+}
+
+input TodoCategoryUpdateInput {
+  id: ID!
+  name: String
+  description: String
 }

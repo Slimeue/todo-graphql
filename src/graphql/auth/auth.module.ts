@@ -32,13 +32,9 @@ import { AuthMiddleware } from './auth.middleware';
     PassportModule,
     JwtModule.register({
       secret: SECRET_KEY,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   exports: [AuthService],
 })
-export class AuthModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(AuthController);
-  }
-}
+export class AuthModule {}

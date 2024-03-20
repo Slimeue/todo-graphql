@@ -9,11 +9,7 @@ export class AuthMiddleware implements NestMiddleware {
   use(req: any, res: any, next: (error?: any) => void) {
     // throw new Error('Method not implemented.');
 
-    const token = req?.headers.authorization.split(' ')[1];
-
-    if (token) {
-      console.log('Token...', token);
-    }
+    const token = req?.headers?.authorization.split(' ')[1] || '';
 
     if (token) {
       try {

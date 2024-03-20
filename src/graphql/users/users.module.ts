@@ -5,10 +5,8 @@ import {
   forwardRef,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './User.schema';
-import { UserSetting, UserSettingSchema } from './UserSettings.schema';
-import { UserResolver } from './User.resolver';
-import { UserSettingResolver } from './UserSettings.resolver';
+import { User, UserSchema } from './user.schema';
+import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 import { UsersController } from './users.controller';
 import { APP_GUARD } from '@nestjs/core';
@@ -16,24 +14,22 @@ import { UserMutationResolver } from './user.mutation.resolver';
 import { TodoModule } from '../todo/todo.module';
 import { AppModule } from 'src/app.module';
 import { RolesGuard } from 'src/roles.guard';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
 import { AuthMiddleware } from '../auth/auth.middleware';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { SECRET_KEY } from 'src/config';
+import { TodoCategoryModule } from '../todoCategory/todoCategory.module';
 
 @Module({
   controllers: [UsersController],
   imports: [
     forwardRef(() => TodoModule),
     forwardRef(() => AppModule),
+    forwardRef(() => TodoCategoryModule),
     MongooseModule.forFeature([
       {
         name: User.name,
         schema: UserSchema,
-      },
-      {
-        name: UserSetting.name,
-        schema: UserSettingSchema,
       },
     ]),
     JwtModule.register({
@@ -42,7 +38,6 @@ import { SECRET_KEY } from 'src/config';
   ],
   providers: [
     UserResolver,
-    UserSettingResolver,
     UserService,
     UserMutationResolver,
     User,

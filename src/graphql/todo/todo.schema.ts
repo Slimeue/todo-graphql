@@ -1,8 +1,11 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { PriorityStatus } from 'src/common.types';
 import { v4 } from 'uuid';
 
-@Schema()
+export type TodoDocument = Todo & Document;
+
+@Schema({ timestamps: true })
 @ObjectType()
 export class Todo {
   @Field(() => ID!)
@@ -13,11 +16,11 @@ export class Todo {
   @Prop({ required: true })
   userId: string;
 
-  @Field()
+  @Field(() => String)
   @Prop()
   title: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   @Prop()
   description: string;
 
@@ -27,7 +30,15 @@ export class Todo {
 
   @Field()
   @Prop()
-  priority: string;
+  priority: PriorityStatus;
+
+  @Field(() => ID, { nullable: true })
+  @Prop()
+  categoryId: string;
+
+  @Field(() => String, { nullable: true })
+  @Prop()
+  category: string;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

@@ -6,30 +6,34 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { User } from './User.schema';
-import { UserSetting } from './UserSettings.schema';
+import { User } from './user.schema';
 import { GetUserArgs } from '../dto/getUser.args';
-import { CreateUserArgs } from '../dto/create-user.input';
 import { UserService } from './user.service';
 import { Public } from 'src/utils/public.decorators';
 import { Todo } from '../todo/todo.schema';
 import { TodoService } from '../todo/todo.service';
 import { CurrentUser } from '../auth/decorator/currentUser.decorator';
-import { Role } from 'src/common.types';
-import { UseGuards } from '@nestjs/common';
-import { RolesGuard } from 'src/roles.guard';
+import {
+  Role,
+  TodoCategoryPaginationInput,
+  TodoPaginationInput,
+} from 'src/common.types';
 import { Roles } from 'src/roles.decorator';
+import { TodoSearch } from '../todo/todo.type';
+import { TodoCategory } from '../todoCategory/todoCategory.schema';
+import { TodoCategoryService } from '../todoCategory/todoCategory.service';
+import { TodoCategorySearch } from '../todoCategory/todoCategory.types';
 
 @Resolver((of) => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
     private todoService: TodoService,
+    private todoCategoryService: TodoCategoryService,
   ) {}
 
   @Query(() => User)
   async viewer(@CurrentUser() user: User): Promise<User> {
-    console.log('user', user);
     return user;
   }
 
@@ -40,7 +44,7 @@ export class UserResolver {
   }
 
   @Public()
-  @ResolveField(() => [User])
+  @ResolveField(() => [User], { nullable: true })
   getAllUsers() {
     return this.userService.findAll();
   }
@@ -58,8 +62,46 @@ export class UserResolver {
     return todo;
   }
 
-  @ResolveField(() => [Todo], { nullable: true })
-  async todos(@CurrentUser() user: User) {
-    return this.todoService.findByUserId(user.id);
+  @ResolveField(() => TodoSearch, { nullable: true })
+  async getTodosByUserId(
+    @Parent() user: User,
+    @CurrentUser() currentUser: User,
+    @Args('input', { type: () => TodoPaginationInput })
+    input: TodoPaginationInput,
+  ) {
+    const todos = await this.todoService.search({
+      ...input,
+      userId: currentUser.id,
+    });
+    console.log('todos', todos);
+    return todos;
+  }
+
+  @ResolveField(() => TodoCategorySearch, { nullable: true })
+  async getTodoCategories(
+    @CurrentUser() currentUser: User,
+    @Args('input', { type: () => TodoCategoryPaginationInput })
+    input: TodoCategoryPaginationInput,
+  ) {
+    const userId = currentUser.id;
+
+    const categories = await this.todoCategoryService.search({
+      userId,
+      ...input,
+    });
+
+    console.log('categories', categories);
+
+    return categories;
+  }
+
+  @ResolveField(() => TodoCategory, { nullable: true })
+  async getTodoCategory(@Args('id') id: string) {
+    if (!id) {
+      throw new Error('Id is required');
+    }
+
+    const category = await this.todoCategoryService.find(id);
+    return category;
   }
 }

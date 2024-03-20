@@ -1,5 +1,5 @@
 import { Resolver } from '@nestjs/graphql';
-import { User } from '../users/User.schema';
+import { User } from '../users/user.schema';
 
 @Resolver(() => User)
 export class AuthMutationResolver {

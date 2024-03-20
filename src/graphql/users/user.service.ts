@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './User.schema';
+import { User } from './user.schema';
 import { FilterQuery, Model } from 'mongoose';
 import { CreateUserArgs } from '../dto/create-user.input';
 import { CommonService } from 'src/common.service';
