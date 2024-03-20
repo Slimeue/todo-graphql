@@ -3,3 +3,8 @@ export enum PriorityStatus {
   MEDIUM = 'MEDIUM',
   HIGH = 'HIGH',
 }
+
+export enum Role {
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+}

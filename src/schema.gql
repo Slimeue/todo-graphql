@@ -8,6 +8,7 @@ type User {
   password: String!
   salt: String!
   displayName: String
+  roles: String!
   getUserById(
     """User id"""
     id: ID!
@@ -39,23 +40,11 @@ type Query {
 }
 
 type Mutation {
-  createUserSettings(createUserSettingsData: CreateSettingsInput!): UserSetting!
-  createUser(createUserData: CreateUserArgs!): User!
   createTodo(input: todoCreateInput!): Todo!
   updateTodo(input: todoUpdateInput!): Todo!
   deleteTodo(id: String!): Todo!
-}
-
-input CreateSettingsInput {
-  userId: Int!
-  recieveNotifcations: Boolean = false
-  recieveEmails: Boolean = false
-}
-
-input CreateUserArgs {
-  username: String!
-  password: String!
-  displayName: String
+  createUserSettings(createUserSettingsData: CreateSettingsInput!): UserSetting!
+  createUser(createUserData: CreateUserArgs!): User!
 }
 
 input todoCreateInput {
@@ -72,4 +61,16 @@ input todoUpdateInput {
   description: String
   status: String
   priority: String
+}
+
+input CreateSettingsInput {
+  userId: Int!
+  recieveNotifcations: Boolean = false
+  recieveEmails: Boolean = false
+}
+
+input CreateUserArgs {
+  username: String!
+  password: String!
+  displayName: String
 }

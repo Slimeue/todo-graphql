@@ -15,6 +15,10 @@ import { Public } from 'src/utils/public.decorators';
 import { Todo } from '../todo/todo.schema';
 import { TodoService } from '../todo/todo.service';
 import { CurrentUser } from '../auth/decorator/currentUser.decorator';
+import { Role } from 'src/common.types';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from 'src/roles.guard';
+import { Roles } from 'src/roles.decorator';
 
 @Resolver((of) => User)
 export class UserResolver {
@@ -25,10 +29,11 @@ export class UserResolver {
 
   @Query(() => User)
   async viewer(@CurrentUser() user: User): Promise<User> {
-    console.log('user', user.displayName);
+    console.log('user', user);
     return user;
   }
 
+  @Roles(Role.ADMIN)
   @ResolveField(() => User, { nullable: true })
   getUserById(@Args() args: GetUserArgs) {
     return this.userService.findOne(args);

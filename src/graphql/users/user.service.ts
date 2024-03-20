@@ -32,6 +32,26 @@ export class UserService {
     return users;
   }
 
+  async findAllNames() {
+    const aggregate = await this.userModel.aggregate([
+      {
+        $match: {
+          username: { $exists: true },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          username: { $push: '$username' },
+        },
+      },
+    ]);
+
+    console.log('aggregate', aggregate);
+
+    return aggregate;
+  }
+
   async findOne({ username }: FilterQuery<User>): Promise<User> {
     const user = await this.userModel.findOne({ username: username }).exec();
     return user;

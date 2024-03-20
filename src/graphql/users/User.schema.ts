@@ -1,8 +1,11 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import { Role } from 'src/common.types';
 import { v4 } from 'uuid';
 
+export type UserDocument = User & Document;
 @Schema()
 @ObjectType()
 export class User {
@@ -25,6 +28,10 @@ export class User {
   @Field({ nullable: true })
   @Prop()
   displayName?: string;
+
+  @Field({ defaultValue: 'USER' })
+  @Prop()
+  roles?: Role;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

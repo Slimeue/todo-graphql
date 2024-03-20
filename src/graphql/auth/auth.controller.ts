@@ -1,9 +1,13 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthPayloadDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { Public } from 'src/utils/public.decorators';
 import { Response } from 'express';
 import { omit } from 'lodash';
+import { LocalGuard } from './guards/local.guard';
+import { RolesGuard } from 'src/roles.guard';
+import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/common.types';
 
 @Controller('auth')
 export class AuthController {
@@ -19,10 +23,10 @@ export class AuthController {
   }
 
   @Public()
+  @UseGuards(LocalGuard)
   @Post('login')
   async login(@Body() authPayLoad: AuthPayloadDto, @Res() res: Response) {
     const resp = await this.authService.signin(authPayLoad);
-
     const { userJwt, userFound } = resp;
     return res.json({ user: userFound, token: userJwt });
   }

@@ -24,6 +24,7 @@ export class AuthService extends CommonService {
     const user = await this.userService.findOne(AuthPayloadDto);
 
     if (!isEmpty(user)) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...username } = user;
 
       const isPasswordMatched = await this.comparePassword(
@@ -34,8 +35,6 @@ export class AuthService extends CommonService {
       if (!isPasswordMatched) {
         throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
       }
-
-      console.log('userFound', user);
 
       const payload = { user };
 
@@ -52,17 +51,5 @@ export class AuthService extends CommonService {
     const user = await this.userService.create(authPayLoad);
 
     return user;
-  }
-
-  async validateUser(AuthPayloadDto: AuthPayloadDto): Promise<AuthPayloadDto> {
-    const foundUser = await this.userService.findOne(AuthPayloadDto);
-    if (!foundUser) {
-      return null;
-    }
-    if (foundUser.password !== AuthPayloadDto.password) {
-      throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
-    }
-    const { password, ...user } = foundUser;
-    return foundUser;
   }
 }
