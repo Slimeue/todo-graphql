@@ -4,9 +4,6 @@ import { Meta } from 'src/common.types';
 
 @InputType()
 export class todoCreateInput {
-  @Field(() => ID)
-  userId: string;
-
   @Field()
   title: string;
 

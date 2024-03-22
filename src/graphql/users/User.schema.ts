@@ -6,7 +6,7 @@ import { Role } from 'src/common.types';
 import { v4 } from 'uuid';
 
 export type UserDocument = User & Document;
-@Schema()
+@Schema({ timestamps: true })
 @ObjectType()
 export class User {
   @Field(() => ID)
@@ -29,9 +29,9 @@ export class User {
   @Prop()
   displayName?: string;
 
-  @Field({ defaultValue: 'USER' })
-  @Prop()
-  roles?: Role;
+  @Field(() => [Role], { defaultValue: [Role.USER] })
+  @Prop({ required: true, type: [String], default: [Role.USER] })
+  roles?: Role[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

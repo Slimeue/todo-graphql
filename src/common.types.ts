@@ -1,4 +1,9 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import {
+  Field,
+  InputType,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql';
 
 export enum PriorityStatus {
   LOW = 'LOW',
@@ -10,7 +15,9 @@ export enum Role {
   ADMIN = 'ADMIN',
   MEMBER = 'MEMBER',
   USER = 'USER',
+  OWNER = 'OWNER',
 }
+registerEnumType(Role, { name: 'Role' });
 
 @InputType()
 export class PaginationInput {

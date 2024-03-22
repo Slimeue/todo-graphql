@@ -19,6 +19,7 @@ import { AuthMiddleware } from '../auth/auth.middleware';
 import { JwtModule } from '@nestjs/jwt';
 import { SECRET_KEY } from 'src/config';
 import { TodoCategoryModule } from '../todoCategory/todoCategory.module';
+import { WorkSpaceModule } from '../workspace/workSpace.module';
 
 @Module({
   controllers: [UsersController],
@@ -26,6 +27,7 @@ import { TodoCategoryModule } from '../todoCategory/todoCategory.module';
     forwardRef(() => TodoModule),
     forwardRef(() => AppModule),
     forwardRef(() => TodoCategoryModule),
+    forwardRef(() => WorkSpaceModule),
     MongooseModule.forFeature([
       {
         name: User.name,

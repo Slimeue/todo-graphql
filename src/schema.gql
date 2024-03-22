@@ -13,35 +13,29 @@ type User {
   password: String!
   salt: String!
   displayName: String
-  roles: String!
+  roles: [Role!]!
   getUserById(
     """User id"""
     id: ID!
     username: String!
   ): User
   getAllUsers: [User!]
-  getTodo(id: String!): Todo
-  getTodosByUserId(input: TodoPaginationInput!): TodoSearch
-  getTodoCategories(input: TodoCategoryPaginationInput!): TodoCategorySearch
-  getTodoCategory(id: String!): TodoCategory
+  ownedWorkSpaces: [WorkSpace!]
 }
 
-input TodoPaginationInput {
-  page: Float! = 1
-  limit: Float! = 10
-  search: String
-  orderBy: String
-  accountId: String
-  userId: String
+enum Role {
+  ADMIN
+  MEMBER
+  USER
+  OWNER
 }
 
-input TodoCategoryPaginationInput {
-  page: Float! = 1
-  limit: Float! = 10
-  search: String
-  orderBy: String
-  accountId: String
-  userId: String
+type WorkSpace {
+  id: ID!
+  name: String!
+  ownerId: String!
+  description: String
+  members: [WorkSpaceMember!]!
 }
 
 type Todo {
@@ -53,7 +47,17 @@ type Todo {
   priority: String!
   categoryId: ID
   category: String
-  getTodos: [Todo]
+  getTodo(id: String!): Todo
+  getTodosByUserId(input: TodoPaginationInput!): TodoSearch
+}
+
+input TodoPaginationInput {
+  page: Float! = 1
+  limit: Float! = 10
+  search: String
+  orderBy: String
+  accountId: String
+  userId: String
 }
 
 type TodoCategory {
@@ -61,6 +65,17 @@ type TodoCategory {
   userId: ID!
   name: String!
   description: String
+  getTodoCategories(input: TodoCategoryPaginationInput!): TodoCategorySearch
+  getTodoCategory(id: String!): TodoCategory
+}
+
+input TodoCategoryPaginationInput {
+  page: Float! = 1
+  limit: Float! = 10
+  search: String
+  orderBy: String
+  accountId: String
+  userId: String
 }
 
 type TodoSearch {
@@ -73,8 +88,25 @@ type TodoCategorySearch {
   meta: Meta!
 }
 
+type WorkSpaceMember {
+  id: ID!
+  workSpaceId: ID!
+  memberId: ID!
+  roles: [Role!]!
+}
+
+type InvitationToken {
+  id: ID!
+  token: String!
+  userId: String!
+  email: String!
+  workspaceId: String!
+}
+
 type Query {
-  viewer: User!
+  todoQuery: Todo
+  userQuery: User!
+  todoCategoryQuery: TodoCategory
 }
 
 type Mutation {
@@ -84,10 +116,13 @@ type Mutation {
   createUser(createUserData: CreateUserArgs!): User!
   createTodoCategory(input: TodoCategoryCreateInput!): TodoCategory!
   updateTodoCategory(input: TodoCategoryUpdateInput!): TodoCategory!
+  createWorkSpace(input: WorkSpaceCreateInput!): WorkSpace!
+  updateWorkSpace(input: WorkSpaceUpdateInput!): WorkSpace!
+  acceptInvitation(token: String!): WorkSpaceMember!
+  createInvitationToken(input: InvitationTokenCreateInput!): InvitationToken!
 }
 
 input todoCreateInput {
-  userId: ID!
   title: String!
   description: String
   status: String!
@@ -119,4 +154,20 @@ input TodoCategoryUpdateInput {
   id: ID!
   name: String
   description: String
+}
+
+input WorkSpaceCreateInput {
+  name: String!
+  description: String
+}
+
+input WorkSpaceUpdateInput {
+  id: ID!
+  name: String!
+  description: String
+}
+
+input InvitationTokenCreateInput {
+  email: String!
+  workspaceId: String!
 }

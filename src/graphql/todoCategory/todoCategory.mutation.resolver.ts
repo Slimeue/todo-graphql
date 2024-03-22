@@ -7,11 +7,14 @@ import {
 } from './todoCategory.types';
 import { CurrentUser } from '../auth/decorator/currentUser.decorator';
 import { User } from '../users/user.schema';
+import { Roles } from 'src/roles.decorator';
+import { Role } from 'src/common.types';
 
 @Resolver((of) => TodoCategory)
 export class TodoCategoryMutationResolver {
   constructor(private readonly todoCategoryService: TodoCategoryService) {}
 
+  @Roles(Role.USER, Role.ADMIN)
   @Mutation(() => TodoCategory)
   async createTodoCategory(
     @Args('input', { type: () => TodoCategoryCreateInput })
@@ -37,6 +40,7 @@ export class TodoCategoryMutationResolver {
     return category;
   }
 
+  @Roles(Role.USER, Role.ADMIN)
   @Mutation(() => TodoCategory)
   async updateTodoCategory(
     @Args('input', { type: () => TodoCategoryUpdateInput })

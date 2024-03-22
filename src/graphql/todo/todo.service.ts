@@ -31,7 +31,7 @@ export class TodoService {
     return todos;
   }
 
-  async create(input: todoCreateInput) {
+  async create(currentUser: string, input: todoCreateInput) {
     const { categoryId } = input;
 
     let category: TodoCategory | null = null;
@@ -45,6 +45,7 @@ export class TodoService {
     const createdTodo = await new this.todoModel({
       categoryId,
       category: category.name,
+      userId: currentUser,
       ...input,
     });
     return createdTodo.save();

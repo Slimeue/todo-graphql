@@ -10,6 +10,9 @@ import { MONGO_URL } from './config';
 import { CommonService } from './common.service';
 import { JwtAuthGuard } from './graphql/auth/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { WorkSpaceModule } from './graphql/workspace/workSpace.module';
+import { WorkSpaceMemberModule } from './graphql/workSpaceMember/workSpaceMember.module';
+import { InvitationTokenModule } from './graphql/invitationToken/invitationToken.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { APP_GUARD } from '@nestjs/core';
     TodoModule,
     AuthModule,
     UsersModule,
+    WorkSpaceModule,
+    WorkSpaceMemberModule,
+    InvitationTokenModule,
   ],
   controllers: [],
   providers: [CommonService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
