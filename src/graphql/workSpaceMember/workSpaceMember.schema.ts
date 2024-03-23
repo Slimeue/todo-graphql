@@ -18,6 +18,10 @@ export class WorkSpaceMember {
   @Prop({ required: true })
   memberId: string;
 
+  @Field(() => String)
+  @Prop({ required: true })
+  email: string;
+
   @Field(() => [Role])
   @Prop({ type: [String], default: [Role.MEMBER] })
   roles?: Role[];

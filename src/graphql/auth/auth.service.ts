@@ -15,8 +15,8 @@ export class AuthService extends CommonService {
   }
 
   async signin(AuthPayloadDto: AuthPayloadDto) {
-    if (isEmpty(AuthPayloadDto.username)) {
-      throw new HttpException('No username found', HttpStatus.NOT_FOUND);
+    if (isEmpty(AuthPayloadDto.email)) {
+      throw new HttpException('No email found', HttpStatus.NOT_FOUND);
     }
 
     let userJwt: string;
@@ -25,7 +25,7 @@ export class AuthService extends CommonService {
 
     if (!isEmpty(user)) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...username } = user;
+      const { password, ...email } = user;
 
       const isPasswordMatched = await this.comparePassword(
         AuthPayloadDto.password,
@@ -39,6 +39,8 @@ export class AuthService extends CommonService {
       const payload = { user };
 
       userJwt = await this.jwtService.signAsync(payload);
+    } else {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     return {

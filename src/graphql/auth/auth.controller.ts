@@ -21,7 +21,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(LocalGuard)
-  @Post('login')
+  @Post('/login')
   async login(@Body() authPayLoad: AuthPayloadDto, @Res() res: Response) {
     const resp = await this.authService.signin(authPayLoad);
     const { userJwt, userFound } = resp;

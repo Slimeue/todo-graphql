@@ -1,5 +1,4 @@
-import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
-import { Role } from 'src/common.types';
+import { Field, ID, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class WorkSpaceCreateInput {

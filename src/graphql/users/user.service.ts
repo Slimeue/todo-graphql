@@ -4,6 +4,7 @@ import { User } from './user.schema';
 import { FilterQuery, Model } from 'mongoose';
 import { CreateUserArgs } from '../dto/create-user.input';
 import { CommonService } from 'src/common.service';
+import { CreateUserInput } from './users.type';
 
 @Injectable()
 export class UserService {
@@ -13,14 +14,14 @@ export class UserService {
     private commonService: CommonService,
   ) {}
 
-  async create(createUserDto: CreateUserArgs) {
+  async create(input: CreateUserInput) {
     const salt = await this.commonService.generateSalt(3);
     const password = await this.commonService.hashPassword(
-      createUserDto.password,
+      input.password,
       salt,
     );
 
-    const createdUser = await new this.userModel(createUserDto);
+    const createdUser = await new this.userModel(input);
     createdUser.password = password;
     createdUser.salt = salt;
 
@@ -52,8 +53,8 @@ export class UserService {
     return aggregate;
   }
 
-  async findOne({ username }: FilterQuery<User>): Promise<User> {
-    const user = await this.userModel.findOne({ username: username }).exec();
+  async findOne({ email }: FilterQuery<User>): Promise<User> {
+    const user = await this.userModel.findOne({ email }).exec();
     return user;
   }
 

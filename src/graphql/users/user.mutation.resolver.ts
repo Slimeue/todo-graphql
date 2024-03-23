@@ -3,6 +3,7 @@ import { User } from './user.schema';
 import { CreateUserArgs } from '../dto/create-user.input';
 import { UserService } from './user.service';
 import { Public } from 'src/utils/public.decorators';
+import { CreateUserInput } from './users.type';
 
 @Resolver(() => User)
 export class UserMutationResolver {
@@ -11,8 +12,8 @@ export class UserMutationResolver {
   @Public()
   @Mutation(() => User)
   createUser(
-    @Args('createUserData', { type: () => CreateUserArgs })
-    createUserData: CreateUserArgs,
+    @Args('createUserData', { type: () => CreateUserInput })
+    createUserData: CreateUserInput,
   ) {
     return this.userService.create(createUserData);
   }

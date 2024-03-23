@@ -9,7 +9,7 @@ type Meta {
 
 type User {
   id: ID!
-  username: String!
+  email: String!
   password: String!
   salt: String!
   displayName: String
@@ -43,6 +43,7 @@ type WorkSpaceMember {
   id: ID!
   workSpaceId: ID!
   memberId: ID!
+  email: String!
   roles: [Role!]!
 }
 
@@ -115,7 +116,7 @@ type Mutation {
   createTodo(input: todoCreateInput!): Todo!
   updateTodo(input: todoUpdateInput!): Todo!
   deleteTodo(id: String!): Todo!
-  createUser(createUserData: CreateUserArgs!): User!
+  createUser(createUserData: CreateUserInput!): User!
   createTodoCategory(input: TodoCategoryCreateInput!): TodoCategory!
   updateTodoCategory(input: TodoCategoryUpdateInput!): TodoCategory!
   createWorkSpace(input: WorkSpaceCreateInput!): WorkSpace!
@@ -141,10 +142,9 @@ input todoUpdateInput {
   categoryId: ID
 }
 
-input CreateUserArgs {
-  username: String!
+input CreateUserInput {
+  email: String!
   password: String!
-  displayName: String
 }
 
 input TodoCategoryCreateInput {
