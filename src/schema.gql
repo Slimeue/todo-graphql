@@ -21,6 +21,7 @@ type User {
   ): User
   getAllUsers: [User!]
   ownedWorkSpaces: [WorkSpace!]
+  workSpaces: [WorkSpace!]
 }
 
 enum Role {
@@ -35,7 +36,14 @@ type WorkSpace {
   name: String!
   ownerId: String!
   description: String
-  members: [WorkSpaceMember!]!
+  members(id: String!): [WorkSpaceMember!]
+}
+
+type WorkSpaceMember {
+  id: ID!
+  workSpaceId: ID!
+  memberId: ID!
+  roles: [Role!]!
 }
 
 type Todo {
@@ -88,13 +96,6 @@ type TodoCategorySearch {
   meta: Meta!
 }
 
-type WorkSpaceMember {
-  id: ID!
-  workSpaceId: ID!
-  memberId: ID!
-  roles: [Role!]!
-}
-
 type InvitationToken {
   id: ID!
   token: String!
@@ -107,6 +108,7 @@ type Query {
   todoQuery: Todo
   userQuery: User!
   todoCategoryQuery: TodoCategory
+  workSpaceQuery: WorkSpace
 }
 
 type Mutation {

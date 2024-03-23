@@ -5,10 +5,12 @@ import { WorkSpaceService } from './workSpace.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { WorkSpace, WorkSpaceSchema } from './workSpace.schema';
 import { UsersModule } from '../users/users.module';
+import { WorkSpaceMemberModule } from '../workSpaceMember/workSpaceMember.module';
 
 @Module({
   imports: [
     forwardRef(() => UsersModule),
+    forwardRef(() => WorkSpaceMemberModule),
     MongooseModule.forFeature([
       { name: WorkSpace.name, schema: WorkSpaceSchema },
     ]),

@@ -20,6 +20,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { SECRET_KEY } from 'src/config';
 import { TodoCategoryModule } from '../todoCategory/todoCategory.module';
 import { WorkSpaceModule } from '../workspace/workSpace.module';
+import { WorkSpaceMemberModule } from '../workSpaceMember/workSpaceMember.module';
 
 @Module({
   controllers: [UsersController],
@@ -28,6 +29,7 @@ import { WorkSpaceModule } from '../workspace/workSpace.module';
     forwardRef(() => AppModule),
     forwardRef(() => TodoCategoryModule),
     forwardRef(() => WorkSpaceModule),
+    forwardRef(()=> WorkSpaceMemberModule),
     MongooseModule.forFeature([
       {
         name: User.name,

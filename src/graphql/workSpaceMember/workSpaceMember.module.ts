@@ -24,7 +24,7 @@ import {
     WorkSpaceMemberMutationResolver,
     WorkSpaceMemberService,
   ],
-  exports: [],
+  exports: [WorkSpaceMemberService, MongooseModule],
   controllers: [],
 })
 export class WorkSpaceMemberModule {}

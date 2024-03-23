@@ -10,22 +10,21 @@ import { User } from './user.schema';
 import { GetUserArgs } from '../dto/getUser.args';
 import { UserService } from './user.service';
 import { Public } from 'src/utils/public.decorators';
-import { Todo } from '../todo/todo.schema';
-import { TodoService } from '../todo/todo.service';
-import { CurrentUser } from '../auth/decorator/currentUser.decorator';
-import { Role, TodoPaginationInput } from 'src/common.types';
-import { Roles } from 'src/roles.decorator';
-import { TodoSearch } from '../todo/todo.type';
 
-import { TodoCategoryService } from '../todoCategory/todoCategory.service';
+import { CurrentUser } from '../auth/decorator/currentUser.decorator';
+import { Role } from 'src/common.types';
+import { Roles } from 'src/roles.decorator';
+
 import { WorkSpace } from '../workspace/workSpace.schema';
 import { WorkSpaceService } from '../workspace/workSpace.service';
+import { WorkSpaceMemberService } from '../workSpaceMember/workSpaceMember.service';
 
 @Resolver((of) => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
     private workSpaceService: WorkSpaceService,
+    private workSpaceMemberService: WorkSpaceMemberService,
   ) {}
 
   @Query(() => User)
@@ -55,6 +54,14 @@ export class UserResolver {
     return workSpaces;
   }
 
-  //TODO workspaces that user is a member/admin/owner
+  //TODO workspaces that user is a member/admin/
+  @ResolveField(() => [WorkSpace], { nullable: true })
+  async workSpaces(@CurrentUser() user: User) {
+    const { id } = user;
 
+    const workSpaces =
+      await this.workSpaceMemberService.findWorkspaceByMemberId(id);
+
+    return workSpaces;
+  }
 }
