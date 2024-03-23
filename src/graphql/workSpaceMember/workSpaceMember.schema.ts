@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { Role } from 'src/common.types';
 import { v4 } from 'uuid';
 
@@ -27,5 +28,6 @@ export class WorkSpaceMember {
   roles?: Role[];
 }
 
+export type WorkSpaceMemberDocument = WorkSpaceMember & Document;
 export const WorkSpaceMemberSchema =
   SchemaFactory.createForClass(WorkSpaceMember);

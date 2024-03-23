@@ -17,7 +17,7 @@ export class WorkSpaceMemberMutationResolver {
     @Args('token') tokenCode: string,
     @CurrentUser() user: User,
   ) {
-    const { id } = user;
+    const { id, email } = user;
 
     if (!id) {
       throw new Error('userId is required');
@@ -40,9 +40,13 @@ export class WorkSpaceMemberMutationResolver {
       throw new Error('Invalid workspaceId');
     }
 
-    const newWorkSpaceMember = await this.workSpaceMemberService.create(id, {
-      workspaceId,
-    });
+    const newWorkSpaceMember = await this.workSpaceMemberService.createMember(
+      id,
+      email,
+      {
+        workSpaceId: workspaceId,
+      },
+    );
 
     return newWorkSpaceMember;
   }

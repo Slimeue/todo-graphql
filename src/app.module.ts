@@ -13,6 +13,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { WorkSpaceModule } from './graphql/workspace/workSpace.module';
 import { WorkSpaceMemberModule } from './graphql/workSpaceMember/workSpaceMember.module';
 import { InvitationTokenModule } from './graphql/invitationToken/invitationToken.module';
+import { WorkSpaceRoomModule } from './graphql/workSpaceRooms/workSpaceRoom.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { InvitationTokenModule } from './graphql/invitationToken/invitationToken
     WorkSpaceModule,
     WorkSpaceMemberModule,
     InvitationTokenModule,
+    WorkSpaceRoomModule,
   ],
   controllers: [],
   providers: [CommonService, { provide: APP_GUARD, useClass: JwtAuthGuard }],

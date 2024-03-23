@@ -8,10 +8,12 @@ import {
   WorkSpaceMember,
   WorkSpaceMemberSchema,
 } from './workSpaceMember.schema';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
     forwardRef(() => InvitationTokenModule),
+    forwardRef(() => UsersModule),
     MongooseModule.forFeature([
       {
         name: WorkSpaceMember.name,

@@ -109,6 +109,13 @@ type InvitationToken {
   workspaceId: String!
 }
 
+type WorkSpaceRoom {
+  id: ID!
+  name: String!
+  description: String!
+  workspaceId: String!
+}
+
 type Query {
   todoQuery: Todo
   userQuery: User!
@@ -127,6 +134,7 @@ type Mutation {
   updateWorkSpace(input: WorkSpaceUpdateInput!): WorkSpace!
   acceptInvitation(token: String!): WorkSpaceMember!
   createInvitationToken(input: InvitationTokenCreateInput!): InvitationToken!
+  createWorkSpaceRoom(input: WorkSpaceRoomCreateInput!): WorkSpaceRoom!
 }
 
 input todoCreateInput {
@@ -174,5 +182,11 @@ input WorkSpaceUpdateInput {
 }
 
 input InvitationTokenCreateInput {
+  workspaceId: String!
+}
+
+input WorkSpaceRoomCreateInput {
+  name: String!
+  description: String!
   workspaceId: String!
 }
