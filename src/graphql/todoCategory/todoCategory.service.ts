@@ -7,7 +7,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { TodoCategory } from './todoCategory.schema';
 import { Model, PipelineStage } from 'mongoose';
 import { TodoCategoryPaginationInput } from 'src/common.types';
-import { get } from 'lodash';
 
 @Injectable()
 export class TodoCategoryService {
@@ -58,7 +57,7 @@ export class TodoCategoryService {
   }
 
   async search(input: TodoCategoryPaginationInput) {
-    const { userId, limit, page, search } = input;
+    const { userId, limit, page } = input;
 
     if (!userId) {
       throw new Error('userId is required');

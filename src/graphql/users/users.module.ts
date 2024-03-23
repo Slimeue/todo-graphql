@@ -29,7 +29,7 @@ import { WorkSpaceMemberModule } from '../workSpaceMember/workSpaceMember.module
     forwardRef(() => AppModule),
     forwardRef(() => TodoCategoryModule),
     forwardRef(() => WorkSpaceModule),
-    forwardRef(()=> WorkSpaceMemberModule),
+    forwardRef(() => WorkSpaceMemberModule),
     MongooseModule.forFeature([
       {
         name: User.name,

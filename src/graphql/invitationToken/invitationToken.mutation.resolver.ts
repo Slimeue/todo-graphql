@@ -15,7 +15,7 @@ export class InvitationTokenMutationResolver {
     input: InvitationTokenCreateInput,
     @CurrentUser() user: User,
   ) {
-    const { id } = user;
+    const { id, email } = user;
 
     const { workspaceId } = input;
 
@@ -29,6 +29,7 @@ export class InvitationTokenMutationResolver {
 
     const newInvitationToken = await this.invitationTokenService.create(
       id,
+      email,
       input,
     );
 

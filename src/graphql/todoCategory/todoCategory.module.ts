@@ -4,7 +4,6 @@ import { TodoCategory, TodoCategorySchema } from './todoCategory.schema';
 import { TodoCategoryResolver } from './todoCategory.resolver';
 import { TodoCategoryMutationResolver } from './todoCategory.mutation.resolver';
 import { TodoCategoryService } from './todoCategory.service';
-import { TodoModule } from '../todo/todo.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from 'src/roles.guard';
 import { UsersModule } from '../users/users.module';

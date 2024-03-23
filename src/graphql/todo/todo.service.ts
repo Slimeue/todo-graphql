@@ -1,10 +1,9 @@
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Todo } from './todo.schema';
 import { Model, PipelineStage } from 'mongoose';
 import { todoCreateInput, todoUpdateInput } from './todo.type';
 import { TodoPaginationInput } from 'src/common.types';
-import { PipelineOptions } from 'stream';
 import { TodoCategory } from '../todoCategory/todoCategory.schema';
 
 @Injectable()
@@ -85,7 +84,7 @@ export class TodoService {
   }
 
   async search(input: TodoPaginationInput) {
-    const { limit, page, search } = input;
+    const { limit, page } = input;
 
     if (!input.userId) {
       throw new Error('userId is required');

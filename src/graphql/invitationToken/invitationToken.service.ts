@@ -12,7 +12,7 @@ export class InvitationTokenService {
     private invitationTokenModel: Model<InvitationToken>,
   ) {}
 
-  async create(id: string, input: InvitationTokenCreateInput) {
+  async create(id: string, email: string, input: InvitationTokenCreateInput) {
     let token = '';
 
     if (!id) {
@@ -25,7 +25,7 @@ export class InvitationTokenService {
 
     const newInvitationToken = await new this.invitationTokenModel({
       userId: id,
-      email: input.email,
+      email,
       workspaceId: input.workspaceId,
       token: token,
     });

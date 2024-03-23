@@ -1,11 +1,4 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Args, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { User } from './user.schema';
 import { GetUserArgs } from '../dto/getUser.args';
 import { UserService } from './user.service';
@@ -19,7 +12,7 @@ import { WorkSpace } from '../workspace/workSpace.schema';
 import { WorkSpaceService } from '../workspace/workSpace.service';
 import { WorkSpaceMemberService } from '../workSpaceMember/workSpaceMember.service';
 
-@Resolver((of) => User)
+@Resolver(() => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
@@ -45,7 +38,10 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
-  @ResolveField(() => [WorkSpace], { nullable: true })
+  @ResolveField(() => [WorkSpace], {
+    nullable: true,
+    description: 'owned workspaces',
+  })
   async ownedWorkSpaces(@CurrentUser() user: User) {
     const { id } = user;
 
@@ -54,8 +50,10 @@ export class UserResolver {
     return workSpaces;
   }
 
-  //TODO workspaces that user is a member/admin/
-  @ResolveField(() => [WorkSpace], { nullable: true })
+  @ResolveField(() => [WorkSpace], {
+    nullable: true,
+    description: 'workspaces that user is a member/admin but not owner',
+  })
   async workSpaces(@CurrentUser() user: User) {
     const { id } = user;
 

@@ -86,6 +86,8 @@ export class WorkSpaceMemberService {
 
     const result = await this.workSpaceMemberModel.aggregate(aggregate).exec();
 
+    console.log('result', result);
+
     const workSpace = result[0]?.workSpace;
 
     if (!workSpace) {
