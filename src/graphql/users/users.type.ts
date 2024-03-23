@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsEmail } from 'class-validator';
 
-@InputType()
+@InputType('createUserInput')
 export class CreateUserInput {
   @Field(() => String)
   email: string;
@@ -10,7 +10,7 @@ export class CreateUserInput {
   password: string;
 }
 
-@InputType()
+@InputType('updateUserInput')
 export class UpdateUserInput {
   @IsEmail()
   @Field(() => String)
@@ -20,7 +20,7 @@ export class UpdateUserInput {
   password: string;
 }
 
-@InputType()
+@InputType('updateUserPasswordInput')
 export class UpdateUserPasswordInput {
   @Field(() => String)
   confirmPassword: string;
@@ -29,7 +29,7 @@ export class UpdateUserPasswordInput {
   password: string;
 }
 
-@InputType()
+@InputType('loginInput')
 export class LoginInput {
   @IsEmail()
   @Field(() => String)
