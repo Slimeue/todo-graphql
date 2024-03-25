@@ -60,6 +60,8 @@ type Todo {
   priority: String!
   categoryId: ID
   category: String
+  workspaceId: ID!
+  workspaceRoomId: ID!
   getTodo(id: String!): Todo
   getTodosByUserId(input: TodoPaginationInput!): TodoSearch
 }
@@ -143,6 +145,8 @@ input todoCreateInput {
   status: String!
   priority: String!
   categoryId: ID
+  workspaceId: ID!
+  workspaceRoomId: ID!
 }
 
 input todoUpdateInput {

@@ -40,6 +40,14 @@ export class Todo {
   @Field(() => String, { nullable: true })
   @Prop()
   category: string;
+
+  @Field(() => ID!)
+  @Prop({ required: true })
+  workspaceId: string;
+
+  @Field(() => ID!)
+  @Prop({ required: true })
+  workspaceRoomId: string;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

@@ -43,7 +43,7 @@ export class TodoService {
 
     const createdTodo = await new this.todoModel({
       categoryId,
-      category: category.name,
+      category: category?.name,
       userId: currentUser,
       ...input,
     });

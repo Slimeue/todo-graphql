@@ -8,11 +8,11 @@ import { Role } from 'src/common.types';
 import { CurrentUser } from '../auth/decorator/currentUser.decorator';
 import { User } from '../users/user.schema';
 
+@Roles(Role.ADMIN, Role.OWNER, Role.MEMBER)
 @Resolver((of) => Todo)
 export class TodoMutationResolver {
   constructor(private todoService: TodoService) {}
 
-  @Roles(Role.ADMIN, Role.USER)
   @Mutation(() => Todo)
   createTodo(
     @Args('input', { type: () => todoCreateInput }) input: todoCreateInput,
@@ -23,7 +23,6 @@ export class TodoMutationResolver {
     return this.todoService.create(id, input);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
   @Mutation(() => Todo)
   updateTodo(
     @Args('input', { type: () => todoUpdateInput }) input: todoUpdateInput,
@@ -31,7 +30,6 @@ export class TodoMutationResolver {
     return this.todoService.update(input);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
   @Mutation(() => Todo)
   deleteTodo(@Args('id', { type: () => String }) id: string) {
     return this.todoService.delete(id);

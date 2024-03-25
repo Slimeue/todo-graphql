@@ -18,6 +18,12 @@ export class todoCreateInput {
 
   @Field(() => ID, { nullable: true })
   categoryId?: string;
+
+  @Field(() => ID)
+  workspaceId: string;
+
+  @Field(() => ID)
+  workspaceRoomId: string;
 }
 
 @InputType()
