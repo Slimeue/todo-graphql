@@ -86,13 +86,9 @@ export class TodoService {
   async search(input: TodoPaginationInput) {
     const { limit, page } = input;
 
-    if (!input.userId) {
-      throw new Error('userId is required');
-    }
-
     const aggregate: PipelineStage[] = [];
     const match: PipelineStage.Match = {
-      $match: { userId: input.userId },
+      $match: { workSpaceRoomId: input.workspaceId },
     };
 
     aggregate.push(match);

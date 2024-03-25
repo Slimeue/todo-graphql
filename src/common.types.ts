@@ -1,5 +1,6 @@
 import {
   Field,
+  ID,
   InputType,
   ObjectType,
   registerEnumType,
@@ -21,10 +22,10 @@ registerEnumType(Role, { name: 'Role' });
 
 @InputType()
 export class PaginationInput {
-  @Field(() => Number, { defaultValue: 1 })
+  @Field(() => Number, { defaultValue: 1, nullable: true })
   page?: number;
 
-  @Field(() => Number, { defaultValue: 10 })
+  @Field(() => Number, { defaultValue: 10, nullable: true })
   limit?: number;
 
   @Field({ nullable: true })
@@ -39,21 +40,33 @@ export class PaginationInput {
 
 @InputType()
 export class TodoPaginationInput extends PaginationInput {
-  @Field(() => String, { nullable: true })
+  @Field(() => ID, { nullable: true })
   userId?: string;
+
+  @Field(() => ID, { nullable: true })
+  workspaceId?: string;
+
+  @Field(() => ID, { nullable: true })
+  workspaceRoomId?: string;
 }
 
 @ObjectType('Meta')
 export class Meta {
   @Field(() => Number)
-  page: number;
+  page?: number;
 
   @Field(() => Number)
-  limit: number;
+  limit?: number;
 }
 
 @InputType()
 export class TodoCategoryPaginationInput extends PaginationInput {
   @Field(() => String, { nullable: true })
   userId?: string;
+}
+
+@InputType()
+export class WorkspaceRoomPaginationInput extends PaginationInput {
+  @Field(() => ID, { nullable: true })
+  workspaceId?: string;
 }

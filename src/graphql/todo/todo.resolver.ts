@@ -1,11 +1,8 @@
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { Todo } from './todo.schema';
-import { Public } from 'src/utils/public.decorators';
 import { TodoService } from './todo.service';
 import { CurrentUser } from '../auth/decorator/currentUser.decorator';
 import { User } from '../users/user.schema';
-import { TodoPaginationInput } from 'src/common.types';
-import { TodoSearch } from './todo.type';
 
 @Resolver((of) => Todo)
 export class TodoResolver {
@@ -25,19 +22,5 @@ export class TodoResolver {
     }
 
     return todo;
-  }
-
-  @ResolveField(() => TodoSearch, { nullable: true })
-  async getTodosByUserId(
-    @Parent() user: User,
-    @CurrentUser() currentUser: User,
-    @Args('input', { type: () => TodoPaginationInput })
-    input: TodoPaginationInput,
-  ) {
-    const todos = await this.todoService.search({
-      ...input,
-      userId: currentUser.id,
-    });
-    return todos;
   }
 }

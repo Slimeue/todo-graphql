@@ -41,6 +41,16 @@ type WorkSpace {
   ownerId: String!
   description: String
   members(id: String!): [WorkSpaceMember!]
+  workspaceRooms(input: WorkspaceRoomPaginationInput!): WorkSpaceRoomSearch
+}
+
+input WorkspaceRoomPaginationInput {
+  page: Float = 1
+  limit: Float = 10
+  search: String
+  orderBy: String
+  accountId: String
+  workspaceId: ID
 }
 
 type WorkSpaceMember {
@@ -63,16 +73,6 @@ type Todo {
   workspaceId: ID!
   workspaceRoomId: ID!
   getTodo(id: String!): Todo
-  getTodosByUserId(input: TodoPaginationInput!): TodoSearch
-}
-
-input TodoPaginationInput {
-  page: Float! = 1
-  limit: Float! = 10
-  search: String
-  orderBy: String
-  accountId: String
-  userId: String
 }
 
 type TodoCategory {
@@ -85,8 +85,8 @@ type TodoCategory {
 }
 
 input TodoCategoryPaginationInput {
-  page: Float! = 1
-  limit: Float! = 10
+  page: Float = 1
+  limit: Float = 10
   search: String
   orderBy: String
   accountId: String
@@ -103,6 +103,30 @@ type TodoCategorySearch {
   meta: Meta!
 }
 
+type WorkSpaceRoom {
+  id: ID!
+  name: String!
+  description: String!
+  workspaceId: String!
+  spaceRoomTodos(input: TodoPaginationInput!): TodoSearch
+}
+
+input TodoPaginationInput {
+  page: Float = 1
+  limit: Float = 10
+  search: String
+  orderBy: String
+  accountId: String
+  userId: ID
+  workspaceId: ID
+  workspaceRoomId: ID
+}
+
+type WorkSpaceRoomSearch {
+  items: [WorkSpaceRoom!]!
+  meta: Meta!
+}
+
 type InvitationToken {
   id: ID!
   token: String!
@@ -111,18 +135,12 @@ type InvitationToken {
   workspaceId: String!
 }
 
-type WorkSpaceRoom {
-  id: ID!
-  name: String!
-  description: String!
-  workspaceId: String!
-}
-
 type Query {
   todoQuery: Todo
   userQuery: User!
   todoCategoryQuery: TodoCategory
   workSpaceQuery: WorkSpace
+  workSpaceRoomQuery: WorkSpaceRoom
 }
 
 type Mutation {
